@@ -1,16 +1,18 @@
 from datetime import datetime
 
-input_data = {}
-
 def file_upload(file_name):
-    with open(file_name, 'r') as f:
-        text = f.read()
-        start_time = datetime.today()
-        timing = start_time.strftime("%Y-%m-%d %H:%M:%S")
-        input_data['data'] = text
-        input_data['time'] = timing
-    return input_data
+    input_data = {}
+    try:
+        time_slot = datetime.now()
+        with open(file_name, 'r') as f:
+            text = f.read()
+            timing = time_slot.strftime("%Y-%m-%d %H:%M:%S")
+            input_data['data'] = text
+            input_data['time'] = timing
+        return input_data
+    except FileNotFoundError as e:
+        return e
 
-ans = file_upload('text.txt')
+ans = file_upload('text2.txt')
 print(ans)
 
