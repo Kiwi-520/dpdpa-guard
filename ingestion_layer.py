@@ -10,6 +10,7 @@ def file_upload(file_name):
             input_data['data'] = text
             input_data['time'] = timing
             input_data['source_tag'] = os.path.abspath(file_name)
+            input_data['source_type'] = 'file'
         return input_data
     except FileNotFoundError as e:
         return e
