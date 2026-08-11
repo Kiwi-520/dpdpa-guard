@@ -1,0 +1,78 @@
+Data considered:
+2. "Personal Data" - Subject Matter
+
+Definition (Section 2(t)): Data about an individual who is identifiable by or in relation to such data
+
+Covers: 
+
+Names, addresses, phone numbers, emails
+Photos, biometrics, location data
+Financial info, health records
+Online identifiers (IP addresses, cookies, device IDs)
+Behavioral data (browsing history, purchase patterns)
+Doesn't Cover:
+
+Anonymous data (truly de-identified)
+Data about companies/organizations
+Statistical data where individuals can't be identified
+
+------------------------------------------------------------------
+
+🌍 Extraterritorial Reach - India's Global Jurisdiction
+Rule: Foreign companies processing Indian data OUTSIDE India are subject to DPDPA IF they offer goods/services to Indians
+
+Four Elements Required:
+
+Processing happens OUTSIDE India
+Data is of Data Principals (individuals) IN India
+Processing connected to offering goods/services
+Goods/services offered TO Indians in India
+Key Phrase: "in connection with"
+
+Broad connection - doesn't require processing to be "for the purpose of" offering, just "in connection with"
+
+What is "Offering Goods or Services"?
+
+✓ Clearly Offering:
+
+E-commerce site ships to India
+Streaming service has Indian content, accepts INR
+Social media platform available in India, has Indian users
+Cloud service marketed to Indian businesses
+App available on Indian app stores
+⚠️ Arguably Offering:
+
+Website accessible from India but not specifically targeting Indians (e.g., no INR pricing, no Indian payment methods, no Indian shipping)
+Generic global platform used by Indians but not marketed to them
+✗ Not Offering:
+
+Website geo-blocked for Indian IPs
+Service explicitly excludes Indian residents in Terms of Service
+B2B service only, no individual consumers
+Examples:
+
+Example 1: Google (USA)
+
+Location: Headquarters in USA, servers worldwide
+Users: 500+ million in India
+Services: Search, Gmail, YouTube, Maps, all targeted to Indians
+Result: ✓ DPDPA applies (Section 1(2)(b))
+Example 2: Netflix (USA)
+
+Location: Headquarters in USA, CDN globally
+Services: Streaming specifically offered to Indians (INR pricing, Indian content, payment via Indian cards/UPI)
+Result: ✓ DPDPA applies (Section 1(2)(b))
+Example 3: TikTok (China/Singapore)
+
+Location: Owned by ByteDance (China), operated from Singapore for most regions
+Services: App was hugely popular in India before ban
+Result: If operational, ✓ DPDPA would apply (Section 1(2)(b))
+Example 4: Small US Blogger
+
+Personal blog accessible globally, no specific Indian targeting
+Some Indian readers, but not marketed to them
+No monetization, no services offered
+Result: ✗ Arguably not "offering services to Indians" - DPDPA may not apply
+--------------------------------------------------------------------------------------
+
+

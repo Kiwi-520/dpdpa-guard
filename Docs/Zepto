@@ -1,0 +1,177 @@
+Let me use Zepto — the 10-minute grocery delivery app. Millions of Indian users. Large engineering team. Handles exactly the kind of data DPDPA governs.
+
+What Zepto collects from you
+
+When you sign up and use Zepto, their systems collect and process:
+
+Mobile number — for OTP login
+Full name — for delivery
+Delivery address — precise location
+Payment details — UPI ID, saved cards
+Order history — what you buy, when, how often
+Device location — real-time while ordering
+Browsing behaviour — what you searched, what you viewed
+Age — sometimes inferred from purchase patterns
+Health-adjacent data — if you buy medicines, baby products, diet food
+
+That is a significant amount of personal data under DPDPA. Some of it is regular personal data. Some of it — health-adjacent, precise location, financial — borders on special category.
+
+Now let me walk through exactly where dpdpa-guard fits into Zepto's engineering reality.
+
+Stage 1 — New feature development
+The scenario
+
+A Zepto product manager raises a requirement. "We want to show personalised health product recommendations based on past purchases. If someone bought protein powder last month, show them fitness supplements."
+
+A developer picks up the ticket. They build the feature. They write a recommendation engine that reads order history, identifies health-related products, and uses purchase patterns to personalise suggestions.
+
+They test it. It works. They raise a pull request.
+
+What the developer did not think about
+
+Purchase history of health products is health-adjacent data. Under DPDPA, using someone's health-related purchase behaviour to profile them for targeted recommendations requires explicit consent for that specific purpose.
+
+Zepto's original consent when the user signed up said "we collect your data to process orders and improve our service." It did not say "we will analyse your health product purchases to profile you for targeted health recommendations."
+
+That is a purpose limitation violation. Section 6 of DPDPA. The data was collected for delivery. It is now being used for profiling. Different purpose. New consent required.
+
+The developer did not know this. The product manager did not think about it. The code reviewer did not catch it.
+
+Where dpdpa-guard runs
+
+dpdpa-guard is integrated into Zepto's CI/CD pipeline. When the developer raises a pull request, the pipeline runs automatically.
+
+dpdpa-guard scans the new code. It detects that the feature accesses a field called order_items which is tagged in the data dictionary as containing health-adjacent purchase data. It checks the purpose registry. It finds that the declared purpose for this data is order_fulfilment. The new feature's purpose is personalised_health_recommendations. These do not match.
+
+dpdpa-guard flags this in the pull request automatically:
+
+DPDPA COMPLIANCE FLAG — PR #4521
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Entity accessed:    order_items (health-adjacent)
+Current purpose:    order_fulfilment
+New feature purpose: personalised_health_recommendations
+DPDPA Section:      Section 6 — Purpose Limitation
+Risk level:         HIGH
+Penalty exposure:   Up to ₹250 crore
+
+Required action:
+→ Add explicit consent collection for health
+  recommendation personalisation before
+  this feature can go live
+→ Update privacy notice to include this
+  new processing purpose
+→ Implement consent check before accessing
+  health-adjacent order history
+
+The pull request cannot merge until the compliance issue is resolved or explicitly acknowledged by a compliance officer.
+
+The developer now knows exactly what to fix. Not because they read DPDPA. Because dpdpa-guard read it for them.
+
+Stage 2 — Existing database audit
+The scenario
+
+Zepto has been running since 2021. Their database has tables built by dozens of different developers over three years. Some tables were built before DPDPA existed.
+
+Their CTO announces that DPDPA enforcement has begun and they need a compliance audit. A compliance consultant quotes ₹15 lakhs and three months to manually review all their data systems.
+
+Where dpdpa-guard runs
+
+Their data engineering team runs dpdpa-guard against their database schemas and a sample of actual data.
+
+bash
+dpdpa-guard scan --source postgresql \
+                 --connection prod_db \
+                 --sample-size 1000 \
+                 --output report.html
+
+dpdpa-guard scans 1000 rows from every table. In the customer_support_tickets table it finds raw Aadhaar numbers in the free-text ticket body column. Customers typed their Aadhaar numbers when asking about KYC issues. Nobody designed this. Nobody noticed. The column is not encrypted. The data has been sitting there for two years.
+
+It finds in the delivery_logs table that precise GPS coordinates are being stored indefinitely with no retention limit. DPDPA requires data to be deleted once the purpose is fulfilled. The delivery is done. The GPS data should be gone. It has been accumulating since 2021.
+
+It finds in the marketing_events table that user browsing behaviour is being sent to a third-party analytics platform — Clevertap — including fields tagged as personally identifiable. No record exists that users consented to their data being shared with Clevertap specifically.
+
+The scan takes four minutes. It produces an HTML report with every finding mapped to its DPDPA section, risk level, and specific remediation steps.
+
+What would have taken a consultant three months and ₹15 lakhs took four minutes and a pip package.
+
+Stage 3 — Real-time data pipeline protection
+The scenario
+
+Zepto's data team runs nightly ETL pipelines. Raw transactional data flows from their production database into their data warehouse for analytics. Data scientists use the warehouse to analyse order patterns, forecast demand, and build ML models.
+
+The problem nobody noticed
+
+The ETL pipeline copies data as-is from production to the warehouse. The warehouse has 200 people with access. Most of them are analysts and data scientists who have no need to see actual customer names, phone numbers, or addresses. They just need aggregate patterns.
+
+But the raw data — including names, phones, addresses, and order history — sits in the warehouse visible to all 200 people. This violates DPDPA's data minimisation principle and creates massive breach exposure.
+
+Where dpdpa-guard runs
+
+dpdpa-guard is added as a transformation step inside the ETL pipeline. Before data moves from production to the warehouse, every row passes through dpdpa-guard.
+
+For each row it detects PII fields. For each detected field it applies the anonymisation strategy from the knowledge engine:
+
+Customer name → encrypted (analysts do not need real names, but customer service might need to retrieve them)
+Phone number → hashed (analysts just need to count unique users, not call them)
+Delivery address → replaced with area-level location only (street address replaced with neighbourhood — enough for demand forecasting, not enough to identify an individual)
+Order items → passed through unchanged (not PII, needed for analysis)
+Payment UPI ID → replaced entirely (no analytical value whatsoever)
+
+The data warehouse now contains analytically useful data with zero raw PII. Data scientists can do their work. A breach of the warehouse exposes nothing meaningful. 200 people can access it safely.
+
+The developer who built the ETL pipeline added three lines of code to integrate dpdpa-guard. They did not make 47 individual decisions about how to handle each field. dpdpa-guard made those decisions based on the DPDPA knowledge engine. The developer just called the function.
+
+Stage 4 — User right to erasure
+The scenario
+
+A Zepto user exercises their right under DPDPA Section 13 — the right to erasure. They send a deletion request. Under DPDPA, Zepto must delete all their personal data within a reasonable time.
+
+The problem
+
+Zepto's data lives in eleven different places. Main production database. Data warehouse. Customer support system. Email marketing platform. Push notification service. Fraud detection system. Delivery partner app. Cold storage backups. Analytics events database. ML training datasets. Log files.
+
+Finding and deleting one person's data from all eleven systems manually is a multi-day engineering task. At scale — if hundreds of users request erasure — it becomes impossible to do manually.
+
+Where dpdpa-guard runs
+
+dpdpa-guard's deletion scheduler module maintains a data map — it knows which systems contain which types of personal data and how each system stores user identifiers.
+
+When a deletion request comes in for user ID 48291:
+
+dpdpa-guard queries its data map. It identifies all eleven systems that contain data linked to this user. It generates deletion jobs for each system. It tracks completion. It generates a Certificate of Erasure — a tamper-evident document proving that the deletion happened, when it happened, and which systems were cleared.
+
+The compliance officer has proof. The user gets confirmation. The whole process takes minutes instead of days. And it is auditable — if a regulator asks for proof that Zepto honoured deletion requests, the certificates exist.
+
+What the Zepto engineering team actually did
+
+To integrate dpdpa-guard into all four stages above, their developers did four things:
+
+One — added pip install dpdpa-guard to their requirements file.
+
+Two — added a five-line integration to their CI/CD pipeline configuration.
+
+Three — added a transformation step to their ETL pipeline calling dpdpa_guard.anonymise(row).
+
+Four — added a webhook endpoint that triggers dpdpa_guard.schedule_deletion(user_id) when a deletion request arrives.
+
+That is it. Four integration points. Every other decision — which DPDPA section applies, what the risk level is, which anonymisation strategy to use, which systems to delete from — dpdpa-guard handles using the knowledge engine built from your year of research.
+
+The developers did not read DPDPA. They integrated a tool that knew DPDPA for them.
+
+The reality check — what developers miss without this
+
+In the Zepto scenario above, without dpdpa-guard:
+
+The health recommendation feature ships with a purpose limitation violation nobody caught. Running for months before a compliance review finds it.
+
+The Aadhaar numbers in customer support tickets sit in plain text for years because nobody scanned for them.
+
+The data warehouse exposes raw PII to 200 people because the ETL developer did not know data minimisation was a legal requirement.
+
+Deletion requests take three days each and have no audit trail.
+
+None of these failures happened because the developers were bad at their jobs. They happened because DPDPA compliance requires legal knowledge that developers do not have and have no easy way to access.
+
+dpdpa-guard is that easy way.
+
+Now do you feel it? The use case is real. The pain is real. The tool solves a real problem that real developers at real companies are going to face as enforcement begins.
