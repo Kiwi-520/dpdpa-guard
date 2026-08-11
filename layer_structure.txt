@@ -1,0 +1,192 @@
+The single entry point — what the outside world sees
+
+Before layers, understand what the developer using dpdpa-guard actually does.
+
+They call one thing. One function. One CLI command. They do not know about layers. They do not care about layers. They give dpdpa-guard some data and they get back a compliance report.
+
+Everything below is invisible to them. The layers exist entirely to make that one interaction work correctly.
+
+Developer gives:   text / file / database connection
+Developer gets:    compliance report with violations and fixes
+
+All eight layers exist to transform the first thing into the second thing.
+
+Layer 1 — Source
+What it receives
+
+Raw input from the developer. This could be a string of text, a file path pointing to a CSV or JSON, a database connection string, or an API payload. It also receives metadata the developer provides — what system this data came from, what the intended purpose of processing is if they know it.
+
+What it does
+
+It does not detect anything. It does not analyse anything. It answers one question only — where did this data come from and in what format does it arrive?
+
+It reads the raw input and converts everything into a standard internal format. A CSV becomes rows of text. A JSON becomes fields of text. A database query result becomes records of text. A plain string stays as a string.
+
+It also attaches a source tag to everything it produces. This tag travels with the data through every subsequent layer. It never gets removed. By the end of the pipeline every detected entity knows exactly where it came from — which file, which column, which table, which API endpoint.
+
+Why source tagging matters
+
+The same Aadhaar number found in a KYC documents folder and in a marketing leads CSV are completely different compliance situations. Without knowing where data came from you cannot make that distinction. The source tag is what makes that distinction possible in Layer 5.
+
+What it passes forward
+
+A standardised data object containing the text content ready for scanning, the source metadata tag, and the inferred format. This goes to Layer 2.
+
+Layer 2 — Detection
+What it receives
+
+The standardised data object from Layer 1. Plain text content with a source tag attached.
+
+What it does
+
+Runs Presidio's analysis engine against the text. Your custom Indian recognisers fire alongside Presidio's built-in recognisers. Every pattern match, every entity found, every confidence score calculated here.
+
+This layer answers one question only — what entities exist in this text?
+
+It does not interpret them. It does not know what DPDPA says about them. It does not know if they are violations. It just finds them.
+
+What it passes forward
+
+A list of raw detection results. Each result contains the entity type in Presidio's naming convention, the start and end character positions in the original text, the confidence score, and the matched text extracted from those positions. The source tag from Layer 1 is attached to every result.
+
+This list goes to Layer 3.
+
+Layer 3 — Normalisation
+What it receives
+
+The list of raw detection results from Layer 2. Each result has Presidio's entity type names — IND_ADHAAR, PHONE_NUMBER, EMAIL_ADDRESS, PERSON and so on.
+
+What it does
+
+Translates every Presidio entity type name into your own clean taxonomy. This is a pure lookup operation. No detection. No analysis. Just renaming.
+
+IND_ADHAAR becomes AADHAAR. PHONE_NUMBER becomes MOBILE_IN. EMAIL_ADDRESS becomes EMAIL. PERSON becomes NAME.
+
+The original Presidio name is kept alongside the new normalised name. It is never deleted. It lives as raw_entity_type in every result going forward. This is for debugging and audit purposes.
+
+Anything not in the mapping table becomes UNKNOWN_ENTITY and gets flagged for human review.
+
+Why this layer exists
+
+Every layer below this only ever speaks your taxonomy. Never Presidio's. If you replace Presidio tomorrow, you only update the mapping table in Layer 3. Layers 4, 5, 6, 7, and 8 never change because they only ever see your normalised names.
+
+What it passes forward
+
+The same list of results from Layer 2 but now every result has both raw_entity_type from Presidio and entity_type as your normalised name. This goes to Layer 4.
+
+Layer 4 — Purpose Inference
+What it receives
+
+The normalised list of detected entities from Layer 3. The source tag from Layer 1 is still attached to every result.
+
+What it does
+
+Looks at the source tag and infers the likely business purpose of why this data is being processed.
+
+It has a configuration — a lookup table that maps source patterns to purposes.
+
+kyc_documents/        → identity_verification
+marketing_leads       → marketing_outreach
+customer_support      → grievance_redressal
+delivery_logs         → order_fulfilment
+application_logs      → service_operation
+hr_records            → employment_management
+analytics             → business_analytics
+
+This layer does not know if the purpose is legal or not. It does not make compliance decisions. It just answers — given where this data came from, what is it probably being used for?
+
+If the developer explicitly provided a purpose when calling dpdpa-guard, Layer 4 uses that. If not, it infers from the source tag.
+
+Why purpose matters
+
+DPDPA is a purpose-limitation law. The same data type can be legal in one context and a violation in another. An Aadhaar number in a KYC folder is expected. The same Aadhaar number in a marketing analytics table is a violation. Without purpose, Layer 5 cannot make that distinction.
+
+What it passes forward
+
+The same list of results, now with a processing_purpose field added to every result. This goes to Layer 5.
+
+Layer 5 — DPDPA Knowledge Engine
+What it receives
+
+The fully enriched list from Layer 4. Every entity now has a normalised type, its source, its matched text, its position, and its inferred purpose.
+
+What it does
+
+This is the most important layer. This is where your year of legal research becomes executable logic.
+
+It takes each entity and looks it up in dpdpa_sections.json using the normalised entity type as the key. For each entity it retrieves:
+
+The DPDPA section that governs this type of data. The legal category — personal data or special category data. The sensitivity level — low, medium, high, critical. The consent requirement — explicit, implied, or none needed. The retention guidance — how long can this data be held. The default anonymisation strategy — replace, hash, or encrypt. The penalty exposure — maximum fine for mishandling.
+
+Then it considers the purpose from Layer 4. It checks — is this purpose a valid reason to process this type of data? Is there a purpose mismatch between what was declared and what is happening?
+
+A phone number being processed for order fulfilment — valid. A phone number being processed for health recommendation personalisation without a declared consent basis — purpose limitation violation.
+
+What it passes forward
+
+The same list, now with full legal enrichment added to every entity. Each result now carries its DPDPA section, violation flags, risk level, anonymisation strategy, and recommended actions. This goes to two places simultaneously — Layer 6 for linkage risk analysis and Layer 7 for cross-system checks. It also goes directly to Layer 8 for reporting.
+
+Layer 6 — Linkage Risk
+What it receives
+
+The fully enriched list from Layer 5. Also the complete set of all entities found in the same document or record — not just individual entities but the combination of everything found together.
+
+What it does
+
+Stops looking at entities one by one. Looks at what appears together in the same record.
+
+Three individually weak data points appearing together can uniquely identify a person even if none of them is PII alone. City plus employer plus job title plus employee ID. None of those is sensitive individually. Together they probably describe exactly one person.
+
+This layer scores combinations. It asks — given all the data points found in this record together, how many people could this combination realistically describe? The smaller the group, the higher the re-identification risk.
+
+It also checks for known dangerous combinations. Name plus date of birth plus location is a classic re-identification triple. Health data plus name plus employer creates professional profiling risk.
+
+Why this matters under DPDPA
+
+DPDPA covers data that can identify a person directly or indirectly. Indirect identification through combinations is exactly what this layer catches. No other tool in the Indian ecosystem currently does this.
+
+What it passes forward
+
+A linkage risk score for each record — LOW, MEDIUM, HIGH, CRITICAL. Plus identification of which field combinations drove the score. This goes to Layer 8 for inclusion in the report.
+
+Layer 7 — Cross-Module Integration
+What it receives
+
+The enriched entity list from Layer 5. User or record identifiers extracted from the scan.
+
+What it does
+
+This layer reaches out to other systems to add intelligence that dpdpa-guard cannot derive from the data alone.
+
+Consent Manager check. For each detected entity, it queries whether a valid consent record exists for this data subject and this processing purpose. If the scan found a mobile number being used for marketing and there is no consent record for this person for marketing — that is not just a theoretical violation. That is a provable violation with evidence.
+
+Retention check. For each entity, it checks the data's age against the retention class from Layer 5's knowledge engine. Is this data older than its permitted retention window? If yes — a deletion task should be created automatically.
+
+Data inventory update. It logs what was found where. This builds a live data map of the organisation's PII landscape over time. Every scan updates the map. The map becomes the source of truth for the privacy policy generator in future versions.
+
+Why this layer transforms the tool
+
+Without Layer 7 dpdpa-guard is a scanner — it tells you what problems exist. With Layer 7 it becomes a compliance engine — it connects findings to evidence, triggers automated actions, and maintains organisational memory across scans.
+
+What it passes forward
+
+Consent gap flags — which entities have no consent record. Deletion tasks — which data is past its retention window. Audit log entries — cryptographic proof of what was scanned and when. All of this goes to Layer 8.
+
+Layer 8 — Reporter
+What it receives
+
+Everything. The enriched entity list from Layer 5. The linkage risk scores from Layer 6. The consent gaps and deletion tasks from Layer 7. The source metadata from Layer 1.
+
+What it does
+
+Assembles everything into the final output the developer actually sees.
+
+It has multiple output formats. Terminal output for developers running scans locally — clean, coloured, readable in seconds. JSON output for CI/CD pipelines — structured data that automated systems can parse and act on. HTML output for sharing with legal teams and compliance officers — readable by non-technical stakeholders. PDF output for regulatory documentation — formal audit evidence.
+
+Every output format contains the same information. Complete PII inventory. Every violation mapped to its DPDPA section in plain English. Consent gaps with evidence. Retention violations with deletion recommendations. Linkage risk scores with the combinations that drove them. Anonymisation recommendations with the strategy for each entity type.
+
+It also generates the Certificate of Erasure when deletion tasks are completed — a tamper-evident document proving that data was deleted, when, from which systems, by whom.
+
+What it produces
+
+The final compliance report. This is what the developer asked for when they called dpdpa-guard. This is what gets shown to the CTO. This is what gets submitted to regulators. This is the end of the pipeline.

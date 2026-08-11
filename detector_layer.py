@@ -21,25 +21,28 @@ def detector(input_data:dict):
     results = analyzer.analyze(text = input_text, language='en')
     obj = [result.to_dict() for result in results]
     entity_count = len(obj)
-    detected_entities_details = []
+    detected_entities_details = {}
+    detected_entities_details = {
+        'metadata':{
+                    'source_tag':input_data['source_tag'],
+                    'source_type': input_data['source_type'],
+                    'scanned_at':input_data['time'],
+                    'total_entities_found':entity_count,
+                    },
+        'entities':[]
+    }
     for i in range(0, entity_count):
         start = obj[i]['start']
         end = obj[i]['end']
         entity = input_text[start:end]
         obj[i]['entity'] = entity
-        detected_entities_details.append([{
+        detected_entities_details['entities'].append({
             'entity':obj[i]['entity'],
-            'entity_type':obj[i]['entity_type'],
+            'raw_entity_type':obj[i]['entity_type'],
             'start':obj[i]['start'],
             'end':obj[i]['end'],
             'score':obj[i]['score']
-        }])
-    detected_entities_details.append({
-        'metadata':{
-                    'source_tag':input_data['source_tag'],
-                    'time':input_data['time'],
-                    },
-    })
+        })
     return detected_entities_details
 
 data = file_upload('text.txt')
@@ -50,3 +53,4 @@ print(results)
 
 # results = detector(text)
 # print(results)
+print(registry.get_country_codes())
