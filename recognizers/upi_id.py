@@ -6,7 +6,7 @@ ind_upi_recognizer = PatternRecognizer(
     patterns=[
         Pattern(
             name = "upi_id",
-            regex = r"^[a-zA-Z0-9-._]{2,256}@[a-zA-Z][a-zA-Z0-9.-]{2,65}$",
+            regex = r"[a-zA-Z0-9-._]{2,256}@[a-zA-Z][a-zA-Z0-9.-]{2,65}",
             score = 0.8
         )
     ]

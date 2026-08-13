@@ -1,5 +1,5 @@
 import logging
-logging.getLogger("presidio analyzer").setLevel(logging.ERROR)
+logging.getLogger("presidio-analyzer").setLevel(logging.ERROR)
 
 from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
 import regex as re
@@ -9,12 +9,23 @@ from ingestion_layer import file_upload
 
 # add it to registry
 registry = RecognizerRegistry()
-registry.load_predefined_recognizers(languages=['en'], countries=['in'])
+registry.load_predefined_recognizers(
+    languages=['en'],
+    countries=['in']
+    )
 
 for i in ALL_RECOGNIZERS:
     registry.add_recognizer(i)
 
 analyzer = AnalyzerEngine(registry=registry)
+
+print("Name Entity Code")
+for r in registry.recognizers:
+    print(
+        r.name,
+        r.supported_entities,
+        r.country_code()
+    )
 
 def detector(input_data:dict):
     input_text = input_data['data']
