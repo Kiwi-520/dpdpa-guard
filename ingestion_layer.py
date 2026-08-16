@@ -14,3 +14,6 @@ def file_upload(file_name):
         return input_data
     except FileNotFoundError as e:
         return e
+
+data = file_upload('text.txt')
+print(data)
