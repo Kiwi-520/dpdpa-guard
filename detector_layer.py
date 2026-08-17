@@ -16,18 +16,26 @@ registry.load_predefined_recognizers(
     countries=['in']
     )
 
+# desiabling uncessary recognizers
+registry.remove_recognizer("DateRecognizer")
+registry.remove_recognizer("IbanRecognizer")
+registry.remove_recognizer("UrlRecognizer")
+registry.remove_recognizer("MacAddressRecognizer")
+registry.remove_recognizer("CryptoRecognizer")
+
+
 for i in ALL_RECOGNIZERS:
     registry.add_recognizer(i)
 
 analyzer = AnalyzerEngine(registry=registry)
 
-# print("Name Entity Code")
-# for r in registry.recognizers:
-#     print(
-#         r.name,
-#         r.supported_entities,
-#         r.country_code()
-#     )
+print("Name Entity Code")
+for r in registry.recognizers:
+    print(
+        r.name,
+        r.supported_entities,
+        r.country_code()
+    )
 
     # ----------------------Substep A - Presidio Detection function starts---------------------------
 
@@ -85,12 +93,12 @@ def valid_check(boundary_check_data):
             boundary_check_data['entities'].remove(each_entity)
     return boundary_check_data
 
-file_content = file_upload('text.txt')
-detected_data = detector(file_content)
-boundary_checked = boundary_check(file_content, detected_data)
-validated_data = valid_check(boundary_checked)
+# file_content = file_upload('text.txt')
+# detected_data = detector(file_content)
+# boundary_checked = boundary_check(file_content, detected_data)
+# validated_data = valid_check(boundary_checked)
 
-pprint(validated_data, sort_dicts = False)
+# pprint(validated_data, sort_dicts = False)
 
 # print(boundary_checked['entities'])
 
