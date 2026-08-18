@@ -8,6 +8,7 @@ from recognizers import ALL_RECOGNIZERS
 from ingestion_layer import file_upload
 
 from pprint import pprint
+import spacy
 
 # add it to registry
 registry = RecognizerRegistry()
@@ -29,14 +30,20 @@ for i in ALL_RECOGNIZERS:
 
 analyzer = AnalyzerEngine(registry=registry)
 
-print("Name Entity Code")
-for r in registry.recognizers:
-    print(
-        r.name,
-        r.supported_entities,
-        r.country_code()
-    )
+# print("Name Entity Code")
+# for r in registry.recognizers:
+#     print(
+#         r.name,
+#         r.supported_entities,
+#         r.country_code()
+#     )
 
+file_data = file_upload("text.txt")
+nlp = spacy.load("en_core_web_sm")
+doc = nlp(file_data['data'])
+tokens = []
+for ent in doc.ents:
+    print(ent.text, ent.start_char, ent.end_char)
     # ----------------------Substep A - Presidio Detection function starts---------------------------
 
 def detector(input_data:dict):
@@ -77,8 +84,8 @@ def boundary_check(file_data, detected_data):
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(file_data['data'])
     tokens = []
-    for token in doc:
-        tokens.append(token)
+    for ent in doc.ent:
+        print(ent.text, ent.start_char, ent.end_char)
     # token check
     for each_entity in detected_data['entities']:
         if each_entity['entity'] in tokens:
