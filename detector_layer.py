@@ -30,6 +30,7 @@ for i in ALL_RECOGNIZERS:
 
 analyzer = AnalyzerEngine(registry=registry)
 
+# ------ checking recognizers -----
 # print("Name Entity Code")
 # for r in registry.recognizers:
 #     print(
@@ -37,14 +38,6 @@ analyzer = AnalyzerEngine(registry=registry)
 #         r.supported_entities,
 #         r.country_code()
 #     )
-
-file_data = file_upload("text.txt")
-nlp = spacy.load("en_core_web_sm")
-doc = nlp(file_data['data'])
-tokens = []
-for ent in doc.ents:
-    print(ent.text, ent.start_char, ent.end_char)
-    # ----------------------Substep A - Presidio Detection function starts---------------------------
 
 def detector(input_data:dict):
     input_text = input_data['data']
@@ -77,15 +70,13 @@ def detector(input_data:dict):
     # ----------------------Substep A - Presidio Detection function ends---------------------------
 
 
-import spacy
-
+    # ----------------------Substep B - Validation functions start---------------------------
+    # ----------------------Boundary checking to avoid false positives---------------------------
 def boundary_check(file_data, detected_data):
     # spacy loading
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(file_data['data'])
     tokens = []
-    for ent in doc.ent:
-        print(ent.text, ent.start_char, ent.end_char)
     # token check
     for each_entity in detected_data['entities']:
         if each_entity['entity'] in tokens:
@@ -93,25 +84,16 @@ def boundary_check(file_data, detected_data):
         else:
             each_entity['score'] -= 0.2
     return detected_data
-
+    # ----------------------Entity validation is checked ---------------------------
 def valid_check(boundary_check_data):
     for each_entity in boundary_check_data['entities']:
         if each_entity['score'] <= 0.5:
             boundary_check_data['entities'].remove(each_entity)
     return boundary_check_data
 
-# file_content = file_upload('text.txt')
-# detected_data = detector(file_content)
-# boundary_checked = boundary_check(file_content, detected_data)
-# validated_data = valid_check(boundary_checked)
+# load file
+file_content = file_upload('text.txt')
+# presidio scanning
+detected_data = detector(file_content)
 
-# pprint(validated_data, sort_dicts = False)
-
-# print(boundary_checked['entities'])
-
-
-# text = "Dr. John Smith is a Professor at ABC Technologies. His Aadhaar number is 2345-6789-1234 and his PAN card number is ABCDE1234F. His passport number is A1234567 and voter ID is ABC1234567. His driving license number is MH-12-20210012345. The bank IFSC code is SBIN0001234. You can send money to his UPI ID john.smith@oksbi. His registered vehicle number is MH 12 AB 1234. Contact him at john.smith@gmail.com or call him at +91 9876543210. His office IP address is 192.168.1.100."
-
-# results = detector(text)
-# print(results)
-# print(registry.get_country_codes())
+pprint(detected_data)
