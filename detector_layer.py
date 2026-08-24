@@ -72,28 +72,35 @@ def detector(input_data:dict):
 
     # ----------------------Substep B - Validation functions start---------------------------
     # ----------------------Boundary checking to avoid false positives---------------------------
-def boundary_check(file_data, detected_data):
+def boundary_checkor(file_data, detected_data):
     # spacy loading
     nlp = spacy.load("en_core_web_sm")
-    doc = nlp(file_data['data'])
-    tokens = []
-    # token check
-    for each_entity in detected_data['entities']:
-        if each_entity['entity'] in tokens:
-            each_entity['score'] = 0.9
+    doc = nlp(file_content['data'])
+
+    position_dict = {}
+    for token in doc:
+        position_dict[token.idx] = (token.idx + len(token.text))
+    # pprint(position_dict)
+    for word in detected_data['entities']:
+        if word['start'] in position_dict and position_dict[word['start']] == word['end']:
+            word['boundary_status'] = "complete"
         else:
-            each_entity['score'] -= 0.2
+            word['boundary_status'] = 'fragment'
     return detected_data
+
     # ----------------------Entity validation is checked ---------------------------
-def valid_check(boundary_check_data):
-    for each_entity in boundary_check_data['entities']:
-        if each_entity['score'] <= 0.5:
-            boundary_check_data['entities'].remove(each_entity)
-    return boundary_check_data
+def valid_check(boundary_checked_data):
+    boundary_checked_data['entities'] = [i for i in boundary_checked_data['entities'] if i['boundary_status'] == "complete"]
+    return boundary_checked_data
 
 # load file
 file_content = file_upload('text.txt')
-# presidio scanning
 detected_data = detector(file_content)
+pprint(f"Detetced_data : {detected_data}")
 
-pprint(detected_data)
+boundary_checked_data = boundary_checkor(file_content, detected_data)
+pprint(f"boundary_checked_data : {boundary_checked_data}")
+
+validated_checked_data = valid_check(boundary_checked_data)
+pprint(f"validated_checked_data : {validated_checked_data}")
+
