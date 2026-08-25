@@ -86,11 +86,17 @@ def boundary_checkor(file_data, detected_data):
             word['boundary_status'] = "complete"
         else:
             word['boundary_status'] = 'fragment'
+    # multi token check
+    for word in detected_data['entities']:
+        if word['boundary_status'] == "fragment":
+            if word['start'] in position_dict and (word['end'] in position_dict.values() or word['end']+1 in position_dict.values()):
+                word['boundary_status'] = "multi-token"
+
     return detected_data
 
     # ----------------------Entity validation is checked ---------------------------
 def valid_check(boundary_checked_data):
-    boundary_checked_data['entities'] = [i for i in boundary_checked_data['entities'] if i['boundary_status'] == "complete"]
+    boundary_checked_data['entities'] = [i for i in boundary_checked_data['entities'] if i['boundary_status'] == "complete" or i['boundary_status'] == "multi-token" ]
     return boundary_checked_data
 
 # load file
@@ -103,4 +109,3 @@ pprint(f"boundary_checked_data : {boundary_checked_data}")
 
 validated_checked_data = valid_check(boundary_checked_data)
 pprint(f"validated_checked_data : {validated_checked_data}")
-
