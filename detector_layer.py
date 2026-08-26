@@ -91,34 +91,6 @@ def boundary_checkor(file_data, detected_data):
         if word['boundary_status'] == "fragment":
             if word['start'] in position_dict and (word['end'] in position_dict.values() or word['end']+1 in position_dict.values()):
                 word['boundary_status'] = "multi-token"
-    # # overlapping check
-    # priority_dict = {
-    #     "EMAIL_ADDRESS" : 9,
-    #     "IP_ADDRESS" : 8,
-    #     "IND_ADHAAR" : 7,
-    #     "IND_PAN" : 7,
-    #     "IND_PASSPORT" : 7,
-    #     "IND_VOTER_ID" : 7,
-    #     "IND_IFSC" : 7,
-    #     "IND_UPI_ID" : 7,
-    #     "IND_DRIVING_LICENSE" : 7,
-    #     "IND_VEHICLE_REGISTRATION_NUMBER" : 7,
-    #     "PERSON" : 6,
-    #     "CREDIT_CARD" : 6,
-    #     "PHONE_NUMBER" : 4,
-    # }
-    # to_remove = set()
-    # for i, wordA in enumerate(detected_data['entities']):
-    #     for j, wordB in enumerate(detected_data['entities']):
-    #         if i < j:
-    #             if (wordA['start'] == wordB['start'] and wordA['end'] == wordB['end']) or (wordB['start'] >= wordA['start'] and wordB['start'] < wordA['end']) or (wordA['start'] >= wordB['start'] and wordA['start'] < wordB['end']):
-    #                 ent1 = wordA['raw_entity_type']
-    #                 ent2 = wordB['raw_entity_type']
-    #                 if priority_dict[ent1] < priority_dict[ent2]:
-    #                     to_remove.add(i)
-    #                 else:
-    #                     to_remove.add(j)
-    # detected_data['entities'] = [ent for idx,ent in enumerate(detected_data['entities']) if idx not in to_remove]
     return detected_data
 
     # ----------------------Entity validation is checked ---------------------------
@@ -157,7 +129,7 @@ def valid_check(boundary_checked_data):
     return boundary_checked_data
 
 # load file
-file_content = file_upload('sample_doc.txt')
+file_content = file_upload('text.txt')
 detected_data = detector(file_content)
 pprint(f"Detetced_data : {detected_data}")
 # pprint(detected_data)
