@@ -6,7 +6,7 @@ ind_driving_licence_recognizer = PatternRecognizer(
     patterns=[
         Pattern(
             name = "driving_license",
-            regex = r"\b[A-Z]{2}[- ]?[0-9]{2}[  ]?[0-9]{4}[- ]?[0-9]{7}\b",
+            regex = r"\b[A-Z]{2}[- ]?[0-9]{2}[- ]?[0-9]{4}[- ]?[0-9]{7}\b",
             score = 0.8
         )
     ]
