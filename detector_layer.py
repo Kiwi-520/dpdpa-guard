@@ -10,12 +10,30 @@ from ingestion_layer import file_upload
 from pprint import pprint
 import spacy
 
+from presidio_analyzer.predefined_recognizers.country_specific.india import(
+    InAadhaarRecognizer,
+    InPanRecognizer,
+    InPassportRecognizer,
+    InGstinRecognizer,
+    InVoterRecognizer,
+    InVehicleRegistrationRecognizer
+)
 # add it to registry
 registry = RecognizerRegistry()
-registry.load_predefined_recognizers(
-    languages=['en'],
-    countries=['in']
-    )
+registry.add_recognizer(InAadhaarRecognizer())
+registry.add_recognizer(InPassportRecognizer())
+registry.add_recognizer(InPanRecognizer())
+registry.add_recognizer(InVehicleRegistrationRecognizer())
+registry.add_recognizer(InVoterRecognizer())
+registry.add_recognizer(InGstinRecognizer())
+
+
+
+# registry.load_predefined_recognizers(
+#     languages=['en'],
+#     countries=['in']
+#     )
+
 
 # desiabling uncessary recognizers
 registry.remove_recognizer("DateRecognizer")
@@ -30,14 +48,14 @@ for i in ALL_RECOGNIZERS:
 
 analyzer = AnalyzerEngine(registry=registry)
 
-# # ------ checking recognizers -----
-# print("Name Entity Code")
-# for r in registry.recognizers:
-#     print(
-#         r.name,
-#         r.supported_entities,
-#         r.country_code()
-#     )
+# ------ checking recognizers -----
+print("Name Entity Code")
+for r in registry.recognizers:
+    print(
+        r.name,
+        r.supported_entities,
+        r.country_code()
+    )
 
 def detector(input_data:dict):
     input_text = input_data['data']
@@ -72,7 +90,7 @@ def detector(input_data:dict):
 
     # ----------------------Substep B - Validation functions start---------------------------
     # ----------------------Boundary checking to avoid false positives---------------------------
-def boundary_checkor(file_data, detected_data):
+def boundary_checkor(file_content, detected_data):
     # spacy loading
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(file_content['data'])
@@ -126,10 +144,11 @@ def valid_check(boundary_checked_data):
                     else:
                         to_remove.add(j)
     boundary_checked_data['entities'] = [ent for idx,ent in enumerate(boundary_checked_data['entities']) if idx not in to_remove]
+    boundary_checked_data['entities'] = [ent for ent in boundary_checked_data['entities'] if "\n" not in ent['entity']]
     return boundary_checked_data
 
 # load file
-file_content = file_upload('text.txt')
+file_content = file_upload('sample_doc.txt')
 detected_data = detector(file_content)
 pprint(f"Detetced_data : {detected_data}")
 # pprint(detected_data)
