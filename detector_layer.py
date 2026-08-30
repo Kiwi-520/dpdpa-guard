@@ -18,6 +18,14 @@ from presidio_analyzer.predefined_recognizers.country_specific.india import(
     InVoterRecognizer,
     InVehicleRegistrationRecognizer
 )
+
+from presidio_analyzer.predefined_recognizers import(
+    PhoneRecognizer ,
+    SpacyRecognizer,
+    CreditCardRecognizer,
+    IpRecognizer,
+    EmailRecognizer
+)
 # add it to registry
 registry = RecognizerRegistry()
 registry.add_recognizer(InAadhaarRecognizer())
@@ -26,13 +34,11 @@ registry.add_recognizer(InPanRecognizer())
 registry.add_recognizer(InVehicleRegistrationRecognizer())
 registry.add_recognizer(InVoterRecognizer())
 registry.add_recognizer(InGstinRecognizer())
-
-
-
-# registry.load_predefined_recognizers(
-#     languages=['en'],
-#     countries=['in']
-#     )
+registry.add_recognizer(EmailRecognizer())
+registry.add_recognizer(PhoneRecognizer())
+registry.add_recognizer(IpRecognizer())
+registry.add_recognizer(CreditCardRecognizer())
+registry.add_recognizer(SpacyRecognizer())
 
 
 # desiabling uncessary recognizers
@@ -91,6 +97,8 @@ def detector(input_data:dict):
     # ----------------------Substep B - Validation functions start---------------------------
     # ----------------------Boundary checking to avoid false positives---------------------------
 def boundary_checkor(file_content, detected_data):
+    # removing unecessary entity
+    detected_data['entities'] = [ent for ent in detected_data['entities'] if ent['raw_entity_type'] != "DATE_TIME"]
     # spacy loading
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(file_content['data'])
@@ -113,19 +121,51 @@ def boundary_checkor(file_content, detected_data):
 
     # ----------------------Entity validation is checked ---------------------------
 def valid_check(boundary_checked_data):
+    # minimum confidence scores
+    min_score_dict = {
+        'IN_AADHAAR':0.5,
+        'IND_ADHAAR':0.5,
+        'IN_PAN': 0.5,
+        'IND_PAN':0.5,
+        'IN_PASSPORT':0.4,
+        'IN_VOTER':0.4,
+        'IND_UPI_ID':0.5,
+        'IND_IFSC':0.5,
+        'PHONE_NUMBER':0.3,
+        'EMAIL_ADDRESS':0.5,
+        'PERSON':0.5,
+        'IP_ADDRESS':0.5,
+    }
+
+    boundary_checked_data['entities'] = [ent for ent in boundary_checked_data['entities'] if  ent['score'] >= min_score_dict.get(ent['raw_entity_type'], 0)]
+
+    # PAN vaerification
+    for ent in boundary_checked_data['entities']:
+         if  (ent['raw_entity_type'] == 'IND_PAN' or ent['raw_entity_type'] == 'IN_PAN'):
+             if ent['entity'][3] in ['P', 'C', 'H', 'F', 'A', 'T', 'B', 'L', 'J', 'G']:
+                 ent['boundary_status'] == "suspicious"
+
     boundary_checked_data['entities'] = [i for i in boundary_checked_data['entities'] if i['boundary_status'] == "complete" or i['boundary_status'] == "multi-token" ]
     # overlapping check
     priority_dict = {
         "EMAIL_ADDRESS" : 9,
         "IP_ADDRESS" : 8,
         "IND_ADHAAR" : 7,
+        "IN_ADHAAR" : 7,
         "IND_PAN" : 7,
+        "IN_PAN" : 7,
         "IND_PASSPORT" : 7,
+        "IN_PASSPORT" : 7,
         "IND_VOTER_ID" : 7,
+        "IN_VOTER_ID" : 7,
         "IND_IFSC" : 7,
+        "IN_IFSC" : 7,
         "IND_UPI_ID" : 7,
+        "IN_UPI_ID" : 7,
         "IND_DRIVING_LICENSE" : 7,
+        "IN_DRIVING_LICENSE" : 7,
         "IND_VEHICLE_REGISTRATION_NUMBER" : 7,
+        "IN_VEHICLE_REGISTRATION_NUMBER" : 7,
         "PERSON" : 6,
         "CREDIT_CARD" : 6,
         "PHONE_NUMBER" : 4,
@@ -150,16 +190,16 @@ def valid_check(boundary_checked_data):
 # load file
 file_content = file_upload('sample_doc.txt')
 detected_data = detector(file_content)
-pprint(f"Detetced_data : {detected_data}")
+# pprint(f"Detetced_data : {detected_data}")
 # pprint(detected_data)
 
 boundary_checked_data = boundary_checkor(file_content, detected_data)
-pprint(f"boundary_checked_data : {boundary_checked_data}")
+# pprint(f"boundary_checked_data : {boundary_checked_data}")
 # pprint(boundary_checked_data)
 
 validated_checked_data = valid_check(boundary_checked_data)
-pprint(f"validated_checked_data : {validated_checked_data}")
-# pprint(validated_checked_data)
+# pprint(f"validated_checked_data : {validated_checked_data}")
+pprint(validated_checked_data)
 # pprint(len(validated_checked_data['entities']))
 
 
