@@ -88,7 +88,8 @@ def detector(input_data:dict):
             'raw_entity_type':obj[i]['entity_type'],
             'start':obj[i]['start'],
             'end':obj[i]['end'],
-            'score':obj[i]['score']
+            'score':obj[i]['score'],
+            'boundary_status':"none",
         })
     return detected_entities_details
     # ----------------------Substep A - Presidio Detection function ends---------------------------
@@ -97,8 +98,34 @@ def detector(input_data:dict):
     # ----------------------Substep B - Validation functions start---------------------------
     # ----------------------Boundary checking to avoid false positives---------------------------
 def boundary_checkor(file_content, detected_data):
+        # minimum confidence scores
+    min_score_dict = {
+        'IN_AADHAAR':0.5,
+        'IND_ADHAAR':0.5,
+        'IN_PAN': 0.5,
+        'IND_PAN':0.5,
+        'IN_PASSPORT':0.4,
+        'IN_VOTER':0.4,
+        'IND_UPI_ID':0.5,
+        'IND_IFSC':0.5,
+        'PHONE_NUMBER':0.3,
+        'EMAIL_ADDRESS':0.5,
+        'PERSON':0.5,
+        'IP_ADDRESS':0.5,
+    }
+
+    detected_data['entities'] = [ent for ent in detected_data['entities'] if  ent['score'] >= min_score_dict.get(ent['raw_entity_type'], 0)]
+
+    # PAN vaerification
+    for ent in detected_data['entities']:
+        if  (ent['raw_entity_type'] == 'IND_PAN' or ent['raw_entity_type'] == 'IN_PAN'):
+            if ent['entity'][3] in ['P', 'C', 'H', 'F', 'A', 'T', 'B', 'L', 'J', 'G']:
+                ent['boundary_status'] == "suspicious"
+            else:
+                ent['boundary_status'] == "clean"
+
     # removing unecessary entity
-    detected_data['entities'] = [ent for ent in detected_data['entities'] if ent['raw_entity_type'] != "DATE_TIME"]
+    detected_data['entities'] = [ent for ent in detected_data['entities'] if ent['raw_entity_type'] not in ["DATE_TIME", "ORGANIZATION"]]
     # spacy loading
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(file_content['data'])
@@ -121,29 +148,29 @@ def boundary_checkor(file_content, detected_data):
 
     # ----------------------Entity validation is checked ---------------------------
 def valid_check(boundary_checked_data):
-    # minimum confidence scores
-    min_score_dict = {
-        'IN_AADHAAR':0.5,
-        'IND_ADHAAR':0.5,
-        'IN_PAN': 0.5,
-        'IND_PAN':0.5,
-        'IN_PASSPORT':0.4,
-        'IN_VOTER':0.4,
-        'IND_UPI_ID':0.5,
-        'IND_IFSC':0.5,
-        'PHONE_NUMBER':0.3,
-        'EMAIL_ADDRESS':0.5,
-        'PERSON':0.5,
-        'IP_ADDRESS':0.5,
-    }
+    # # minimum confidence scores
+    # min_score_dict = {
+    #     'IN_AADHAAR':0.5,
+    #     'IND_ADHAAR':0.5,
+    #     'IN_PAN': 0.5,
+    #     'IND_PAN':0.5,
+    #     'IN_PASSPORT':0.4,
+    #     'IN_VOTER':0.4,
+    #     'IND_UPI_ID':0.5,
+    #     'IND_IFSC':0.5,
+    #     'PHONE_NUMBER':0.3,
+    #     'EMAIL_ADDRESS':0.5,
+    #     'PERSON':0.5,
+    #     'IP_ADDRESS':0.5,
+    # }
 
-    boundary_checked_data['entities'] = [ent for ent in boundary_checked_data['entities'] if  ent['score'] >= min_score_dict.get(ent['raw_entity_type'], 0)]
+    # boundary_checked_data['entities'] = [ent for ent in boundary_checked_data['entities'] if  ent['score'] >= min_score_dict.get(ent['raw_entity_type'], 0)]
 
-    # PAN vaerification
-    for ent in boundary_checked_data['entities']:
-         if  (ent['raw_entity_type'] == 'IND_PAN' or ent['raw_entity_type'] == 'IN_PAN'):
-             if ent['entity'][3] in ['P', 'C', 'H', 'F', 'A', 'T', 'B', 'L', 'J', 'G']:
-                 ent['boundary_status'] == "suspicious"
+    # # PAN vaerification
+    # for ent in boundary_checked_data['entities']:
+    #      if  (ent['raw_entity_type'] == 'IND_PAN' or ent['raw_entity_type'] == 'IN_PAN'):
+    #          if ent['entity'][3] in ['P', 'C', 'H', 'F', 'A', 'T', 'B', 'L', 'J', 'G']:
+    #              ent['boundary_status'] == "suspicious"
 
     boundary_checked_data['entities'] = [i for i in boundary_checked_data['entities'] if i['boundary_status'] == "complete" or i['boundary_status'] == "multi-token" ]
     # overlapping check
@@ -156,16 +183,16 @@ def valid_check(boundary_checked_data):
         "IN_PAN" : 7,
         "IND_PASSPORT" : 7,
         "IN_PASSPORT" : 7,
-        "IND_VOTER_ID" : 7,
-        "IN_VOTER_ID" : 7,
+        "IND_VOTER" : 7,
+        "IN_VOTER" : 7,
         "IND_IFSC" : 7,
         "IN_IFSC" : 7,
         "IND_UPI_ID" : 7,
         "IN_UPI_ID" : 7,
         "IND_DRIVING_LICENSE" : 7,
         "IN_DRIVING_LICENSE" : 7,
-        "IND_VEHICLE_REGISTRATION_NUMBER" : 7,
-        "IN_VEHICLE_REGISTRATION_NUMBER" : 7,
+        "IND_VEHICLE_REGISTRATION" : 7,
+        "IN_VEHICLE_REGISTRATION" : 7,
         "PERSON" : 6,
         "CREDIT_CARD" : 6,
         "PHONE_NUMBER" : 4,
