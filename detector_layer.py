@@ -148,29 +148,6 @@ def boundary_checkor(file_content, detected_data):
 
     # ----------------------Entity validation is checked ---------------------------
 def valid_check(boundary_checked_data):
-    # # minimum confidence scores
-    # min_score_dict = {
-    #     'IN_AADHAAR':0.5,
-    #     'IND_ADHAAR':0.5,
-    #     'IN_PAN': 0.5,
-    #     'IND_PAN':0.5,
-    #     'IN_PASSPORT':0.4,
-    #     'IN_VOTER':0.4,
-    #     'IND_UPI_ID':0.5,
-    #     'IND_IFSC':0.5,
-    #     'PHONE_NUMBER':0.3,
-    #     'EMAIL_ADDRESS':0.5,
-    #     'PERSON':0.5,
-    #     'IP_ADDRESS':0.5,
-    # }
-
-    # boundary_checked_data['entities'] = [ent for ent in boundary_checked_data['entities'] if  ent['score'] >= min_score_dict.get(ent['raw_entity_type'], 0)]
-
-    # # PAN vaerification
-    # for ent in boundary_checked_data['entities']:
-    #      if  (ent['raw_entity_type'] == 'IND_PAN' or ent['raw_entity_type'] == 'IN_PAN'):
-    #          if ent['entity'][3] in ['P', 'C', 'H', 'F', 'A', 'T', 'B', 'L', 'J', 'G']:
-    #              ent['boundary_status'] == "suspicious"
 
     boundary_checked_data['entities'] = [i for i in boundary_checked_data['entities'] if i['boundary_status'] == "complete" or i['boundary_status'] == "multi-token" ]
     # overlapping check
