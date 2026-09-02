@@ -5,7 +5,7 @@ from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
 import regex as re
 
 from recognizers import ALL_RECOGNIZERS
-from ingestion_layer import file_upload
+# from ingestion_layer import file_upload
 
 from pprint import pprint
 import spacy
@@ -54,14 +54,14 @@ for i in ALL_RECOGNIZERS:
 
 analyzer = AnalyzerEngine(registry=registry)
 
-# ------ checking recognizers -----
-print("Name Entity Code")
-for r in registry.recognizers:
-    print(
-        r.name,
-        r.supported_entities,
-        r.country_code()
-    )
+# # ------ checking recognizers -----
+# print("Name Entity Code")
+# for r in registry.recognizers:
+#     print(
+#         r.name,
+#         r.supported_entities,
+#         r.country_code()
+#     )
 
 def detector(input_data:dict):
     input_text = input_data['data']
@@ -190,20 +190,4 @@ def valid_check(boundary_checked_data):
     boundary_checked_data['entities'] = [ent for idx,ent in enumerate(boundary_checked_data['entities']) if idx not in to_remove]
     boundary_checked_data['entities'] = [ent for ent in boundary_checked_data['entities'] if "\n" not in ent['entity']]
     return boundary_checked_data
-
-# load file
-file_content = file_upload('sample_doc.txt')
-detected_data = detector(file_content)
-# pprint(f"Detetced_data : {detected_data}")
-# pprint(detected_data)
-
-boundary_checked_data = boundary_checkor(file_content, detected_data)
-# pprint(f"boundary_checked_data : {boundary_checked_data}")
-# pprint(boundary_checked_data)
-
-validated_checked_data = valid_check(boundary_checked_data)
-# pprint(f"validated_checked_data : {validated_checked_data}")
-pprint(validated_checked_data)
-# pprint(len(validated_checked_data['entities']))
-
 
