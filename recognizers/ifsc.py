@@ -6,7 +6,7 @@ ind_ifsc_recognizer = PatternRecognizer(
     patterns=[
         Pattern(
             name = "ifsc",
-            regex = r"\b[A-Z]{4}0[A-Z0-9]{7}\b",
+            regex = r"\b[A-Z]{4}0[A-Z0-9]{6}\b",
             score = 0.8
         )
     ]

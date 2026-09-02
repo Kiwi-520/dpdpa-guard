@@ -9,11 +9,6 @@ from .voter_id import ind_voter_id_recognizer
 
 ALL_RECOGNIZERS = [
     ind_upi_recognizer,
-    ind_adhaar_recognizer,
-    ind_pan_recognizer,
     ind_driving_licence_recognizer,
-    ind_passport_number_recognizer,
-    ind_vehicle_registration_number_recognizer,
-    ind_voter_id_recognizer,
     ind_ifsc_recognizer,
 ]
