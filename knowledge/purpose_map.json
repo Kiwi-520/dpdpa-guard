@@ -1,0 +1,42 @@
+{
+  "kyc": {
+    "source": "kyc",
+    "business_purpose": "identity_verification"
+  },
+  "marketing": {
+    "source": "marketing",
+    "business_purpose": "marketing_outreach"
+  },
+  "support": {
+    "source": "customer_support",
+    "business_purpose": "grievance_redressal"
+  },
+  "ticket": {
+    "source": "customer_support",
+    "business_purpose": " grievance_redressal"
+  },
+  "hr": {
+    "source": "hr",
+    "business_purpose": "employment_management"
+  },
+  "employee": {
+    "source": "hr",
+    "business_purpose": "employment_management"
+  },
+  "analytics": {
+    "source": "analytics",
+    "business_purpose": "business_analytics"
+  },
+  "logs": {
+    "source": "operational_logs",
+    "business_purpose": "service_operation"
+  },
+  "payment": {
+    "source": "payment_processing",
+    "business_purpose": "payment_fulfilment"
+  },
+  "audit": {
+    "source": "audit",
+    "business_purpose": "regulatory_compliance"
+  }
+}

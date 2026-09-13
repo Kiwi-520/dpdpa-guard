@@ -1,0 +1,2038 @@
+{
+  "_metadata": {
+    "version": "0.1.0",
+    "law_reference": "Digital Personal Data Protection Act, 2023 (No. 22 of 2023)",
+    "gazette_reference": "The Gazette of India Extraordinary, Part II Section 1, No. 25, August 11, 2023",
+    "source": "https://indiacode.nic.in/handle/123456789/20430",
+    "disclaimer": "This knowledge base provides automated compliance guidance based on DPDPA 2023. It is not legal advice. All assessments are heuristic starting points for compliance review. Consult qualified privacy counsel for definitive compliance determinations.",
+    "last_updated": "2026-09-08",
+    "key_corrections_from_gdpr": [
+      "DPDPA 2023 does NOT define a fixed list of special category data unlike GDPR Article 9",
+      "DPDPA Section 9 specifically governs children's data (under 18) — not a general sensitive category list",
+      "All personal data is governed by Sections 4, 5, 6, 7, 8 regardless of type",
+      "DPDPA has no legitimate interest basis — Section 7 lists exhaustive legitimate uses only",
+      "Consent must be free, specific, informed, unconditional and unambiguous per Section 6(1)"
+    ]
+  },
+
+  "_violation_flags_reference": {
+    "PURPOSE_LIMITATION_VIOLATION": "Data used for purpose other than declared consent basis — Section 6(1)",
+    "NO_CONSENT_MECHANISM": "No documented consent collected before processing — Section 6",
+    "NO_NOTICE_PROVIDED": "No notice given to Data Principal before consent — Section 5",
+    "DATA_MINIMISATION_VIOLATION": "Data collected exceeds what stated purpose requires — Section 6(1)",
+    "RETENTION_VIOLATION": "Data held beyond stated purpose or legal requirement — Section 8(7)",
+    "NO_ERASURE_MECHANISM": "No mechanism for Data Principal to request erasure — Section 12(3)",
+    "NO_GRIEVANCE_MECHANISM": "No grievance redressal mechanism established — Section 8(10) and Section 13",
+    "SECURITY_SAFEGUARDS_MISSING": "Inadequate technical/organisational security measures — Section 8(4) and 8(5)",
+    "BREACH_NOTIFICATION_MISSING": "No process to notify Board and Data Principal of breach — Section 8(6)",
+    "CHILDREN_DATA_NO_PARENTAL_CONSENT": "Child's data processed without verifiable parental consent — Section 9(1)",
+    "CHILDREN_DATA_PROFILING": "Behavioural monitoring or targeted advertising directed at children — Section 9(3)",
+    "PURPOSE_UNKNOWN": "Processing purpose cannot be determined from source context",
+    "NO_WITHDRAWAL_MECHANISM": "No mechanism for Data Principal to withdraw consent — Section 6(4)",
+    "THIRD_PARTY_DISCLOSURE_RISK": "Data sharing with third parties without adequate disclosure in notice — Section 5",
+    "CONSENT_NOT_SPECIFIC": "Consent obtained for bundled purposes rather than specific purpose — Section 6(1)"
+  },
+
+  "_penalty_schedule": {
+    "section_8_5_security_breach": {
+      "section": "Section 8(5) — Schedule Item 1",
+      "description": "Breach of obligation to take reasonable security safeguards to prevent personal data breach",
+      "max_penalty_crore": 250
+    },
+    "section_8_6_notification_breach": {
+      "section": "Section 8(6) — Schedule Item 2",
+      "description": "Breach of obligation to notify Board and affected Data Principals of personal data breach",
+      "max_penalty_crore": 200
+    },
+    "section_9_children_breach": {
+      "section": "Section 9 — Schedule Item 3",
+      "description": "Breach of additional obligations in relation to children",
+      "max_penalty_crore": 200
+    },
+    "section_10_significant_fiduciary_breach": {
+      "section": "Section 10 — Schedule Item 4",
+      "description": "Breach of additional obligations of Significant Data Fiduciary",
+      "max_penalty_crore": 150
+    },
+    "other_breach": {
+      "section": "Schedule Item 7",
+      "description": "Breach of any other provision of the Act or rules",
+      "max_penalty_crore": 50
+    }
+  },
+
+  "AADHAAR": {
+    "description": "UIDAI-issued 12-digit unique identification number — a government identifier that constitutes personal data under Section 2(t). Highly sensitive in practice due to its universal use as a primary identity proof.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "note": "DPDPA 2023 does not separately categorise Aadhaar beyond personal data. Aadhaar usage is additionally governed by the Aadhaar Act 2016 and UIDAI regulations. High sensitivity is operational, not a separate legal category under DPDPA.",
+    "base_sensitivity": "CRITICAL",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["identity_verification", "regulatory_compliance"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8(4)", "Section 8(5)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Ensure explicit consent is obtained before collecting Aadhaar — Section 6(1)",
+          "Provide clear notice stating Aadhaar is being collected and the specific purpose — Section 5",
+          "Implement strong encryption at rest and in transit — Section 8(4) and 8(5)",
+          "Establish and document data retention limit — delete after verification is complete — Section 8(7)",
+          "Implement data minimisation — collect only the Aadhaar, not unnecessary additional fields — Section 6(1)",
+          "Provide Data Principal with withdrawal mechanism — Section 6(4)",
+          "Establish grievance redressal mechanism — Section 8(10)",
+          "Implement breach notification process for Board and affected individuals — Section 8(6)",
+          "Note: Also verify compliance with Aadhaar Act 2016 and UIDAI regulations independently"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 7(d)", "Section 8(4)", "Section 8(5)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document the specific law or regulation that mandates Aadhaar collection — Section 7(d)",
+          "Provide notice even when processing under legitimate use basis — Section 5",
+          "Implement strong encryption at rest and in transit — Section 8(4) and 8(5)",
+          "Delete Aadhaar once regulatory obligation is fulfilled — Section 8(7)",
+          "Establish breach notification process — Section 8(6)"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)", "Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards; Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Remove Aadhaar from all marketing datasets immediately",
+          "Marketing is not a valid purpose for Aadhaar collection — no legitimate basis exists under Section 7",
+          "If Aadhaar was collected during onboarding, it must not be used for marketing without separate explicit consent — Section 6(1)",
+          "Conduct data minimisation review — Aadhaar should not exist in any marketing system"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)", "Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Aadhaar is not required for payment processing — use payment-specific identifiers instead",
+          "Remove Aadhaar from payment pipelines",
+          "If Aadhaar-linked payment is specifically required by regulation, document that regulatory basis"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Aadhaar is not required for grievance redressal — use name and account ID instead",
+          "Remove Aadhaar from customer support systems",
+          "Data minimisation violation — Aadhaar exceeds what grievance handling requires"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(i)", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Section 7(i) permits processing for employment purposes — document this basis",
+          "Obtain explicit consent and provide notice even under Section 7(i) — Section 5",
+          "Implement strong encryption — Section 8(4)",
+          "Delete after employment relationship ends unless legal retention is required — Section 8(7)",
+          "Verify compliance with Aadhaar Act 2016 independently"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Aadhaar must not be used in analytics systems",
+          "Anonymise or remove Aadhaar before any analytics processing",
+          "Analytics does not constitute a valid purpose for Aadhaar processing under Section 7"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Aadhaar must not appear in operational logs or service monitoring systems",
+          "Scrub Aadhaar from logs immediately",
+          "Implement log sanitisation to prevent PII in operational systems"
+        ]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_UNKNOWN",
+          "NO_CONSENT_MECHANISM"
+        ],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards; Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why Aadhaar exists in this dataset — document the purpose immediately",
+          "Verify that explicit consent was obtained for this specific purpose — Section 6(1)",
+          "If purpose cannot be established, delete the data — Section 8(7)",
+          "Processing Aadhaar without a clear lawful purpose violates Section 4"
+        ]
+      }
+    }
+  },
+
+  "PAN": {
+    "description": "Income Tax Department issued 10-character alphanumeric Permanent Account Number — constitutes personal data under Section 2(t). Widely used as financial and identity proof.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "HIGH",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["identity_verification", "regulatory_compliance", "payment_fulfilment", "employment_management"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain explicit consent before collecting PAN — Section 6(1)",
+          "Provide notice specifying PAN and its purpose — Section 5",
+          "Encrypt PAN at rest and in transit — Section 8(4) and 8(5)",
+          "Delete after verification is complete — Section 8(7)",
+          "Establish breach notification process — Section 8(6)"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 7(d)", "Section 8"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document the specific regulation requiring PAN collection",
+          "Provide notice even under legitimate use basis — Section 5",
+          "Encrypt and secure PAN data — Section 8(4) and 8(5)",
+          "Delete after regulatory obligation is fulfilled — Section 8(7)"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain explicit consent for PAN collection — Section 6(1)",
+          "Include PAN use in notice — Section 5",
+          "Encrypt PAN at rest — Section 8(4)",
+          "Apply data minimisation — collect PAN only when legally required for the transaction",
+          "Delete after transaction is complete unless tax law requires retention"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(i)", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "PAN collection for salary/TDS purposes is legally mandated — document this",
+          "Obtain consent and provide notice — Section 5 and 6",
+          "Encrypt PAN in HR systems — Section 8(4)",
+          "Retain only as required by Income Tax Act obligations"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Remove PAN from all marketing datasets",
+          "Marketing has no legitimate basis for PAN processing under Section 7",
+          "Delete PAN from any marketing system immediately"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "PAN is not required for customer support — use account ID instead",
+          "Remove PAN from customer support systems",
+          "Data minimisation violation — PAN exceeds what grievance handling requires"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Anonymise or remove PAN before analytics processing",
+          "PAN should never appear in analytics datasets"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [
+          "PURPOSE_LIMITATION_VIOLATION",
+          "DATA_MINIMISATION_VIOLATION"
+        ],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "PAN must not appear in operational logs",
+          "Implement log sanitisation to remove PAN from any logging system"
+        ]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN", "NO_CONSENT_MECHANISM"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why PAN exists in this dataset",
+          "Verify consent was obtained for this specific purpose",
+          "If purpose cannot be established, delete the data — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "PASSPORT": {
+    "description": "Government of India issued passport number — constitutes personal data under Section 2(t). Government-issued identity document.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "HIGH",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["identity_verification", "regulatory_compliance", "employment_management"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain explicit consent before collecting passport number — Section 6(1)",
+          "Provide clear notice — Section 5",
+          "Encrypt at rest and in transit — Section 8(4) and 8(5)",
+          "Delete after verification is complete — Section 8(7)"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)", "Section 8"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document the regulation requiring passport collection",
+          "Encrypt and secure passport data — Section 8(4)",
+          "Delete after obligation is fulfilled"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(i)", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Passport for employment visa purposes is legitimate — document basis",
+          "Encrypt and limit access to HR systems — Section 8(4)",
+          "Delete after employment relationship ends unless legally required"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Passport numbers must not exist in any marketing system",
+          "Remove immediately — no legitimate basis under Section 7"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Passport not required for customer support",
+          "Remove from support systems — data minimisation violation"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Passport is not required for payment processing",
+          "Remove from payment systems immediately"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Passport must not appear in analytics systems",
+          "Anonymise or remove before any analytics processing"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Passport must not appear in operational logs",
+          "Implement log sanitisation"
+        ]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN", "NO_CONSENT_MECHANISM"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why passport number exists in this dataset",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "VOTER_ID": {
+    "description": "Election Commission of India issued Electors Photo Identity Card (EPIC) number — personal data under Section 2(t).",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "HIGH",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["identity_verification", "regulatory_compliance"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain explicit consent — Section 6(1)",
+          "Provide notice before collection — Section 5",
+          "Encrypt at rest and in transit — Section 8(4)",
+          "Delete after verification is complete — Section 8(7)"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)", "Section 8"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document the regulation requiring Voter ID",
+          "Encrypt and secure — Section 8(4)",
+          "Delete after obligation is fulfilled"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Voter ID must not exist in marketing systems",
+          "Remove immediately — no legitimate basis"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Voter ID not required for payments — remove from payment systems"]
+      },
+      "grievance_redressal": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Voter ID not required for customer support — remove"]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Voter ID is not required for employment — use Aadhaar or PAN for identity in HR context",
+          "Remove from HR systems unless specific legal requirement exists"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Voter ID must not appear in analytics — remove immediately"]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Voter ID must not appear in logs — implement log sanitisation"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why Voter ID exists here",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "DRIVING_LICENSE": {
+    "description": "State Road Transport Authority issued driving licence number — personal data under Section 2(t).",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "HIGH",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["identity_verification", "regulatory_compliance"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain explicit consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Encrypt at rest and in transit — Section 8(4)",
+          "Delete after verification is complete — Section 8(7)"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)", "Section 8"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document the specific regulation requiring driving licence",
+          "Encrypt and secure — Section 8(4)"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Driving licence must not exist in marketing systems — remove immediately"]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Driving licence not required for payments — remove"]
+      },
+      "grievance_redressal": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Driving licence not required for customer support — remove"]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Driving licence not required for most employment — remove unless role specifically requires it (e.g. driver position)",
+          "If required for role, document the specific employment necessity"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Driving licence must not appear in analytics — remove"]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Driving licence must not appear in logs — implement log sanitisation"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why driving licence exists here",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "VEHICLE_REG": {
+    "description": "State RTO issued vehicle registration number — can identify an individual indirectly when combined with other data. Personal data under Section 2(t).",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "MEDIUM",
+    "requires_notice": true,
+    "requires_consent": true,
+    "disclaimer": "Heuristic assessment — vehicle registration identifiability depends on context. Consult legal counsel.",
+    "valid_purposes": ["identity_verification", "regulatory_compliance", "service_operation", "payment_fulfilment"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Delete after verification — Section 8(7)"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)", "Section 8"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document regulatory basis",
+          "Delete after obligation is fulfilled"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent if vehicle reg is collected for service delivery — Section 6(1)",
+          "Provide notice — Section 5",
+          "Delete when service purpose is fulfilled — Section 8(7)"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Delete after transaction — Section 8(7)"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Vehicle registration must not be used for marketing without separate explicit consent",
+          "Obtain specific marketing consent if intended — Section 6(1)"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Vehicle reg in support context is valid if related to a vehicle-related service",
+          "Obtain consent and provide notice"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Vehicle registration not required for employment management",
+          "Remove unless role specifically requires it — document if so"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Anonymise vehicle registration before analytics use"]
+      },
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Obtain consent, delete when purpose served"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine processing purpose",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "GSTIN": {
+    "description": "Goods and Services Tax Identification Number — business identifier that may be linked to an individual in case of proprietorships. Personal data under Section 2(t) when individually identifiable.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "MEDIUM",
+    "requires_notice": true,
+    "requires_consent": true,
+    "disclaimer": "GSTIN is primarily a business identifier. Its status as personal data depends on whether it identifies a specific individual. In proprietary businesses it may identify an individual. Consult legal counsel for context-specific determination.",
+    "valid_purposes": ["identity_verification", "regulatory_compliance", "payment_fulfilment", "business_analytics"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent if GSTIN is being collected for individual identification — Section 6(1)",
+          "Note: GSTIN for business verification may not require personal data consent"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "GSTIN for GST compliance is legally mandated — document the regulatory basis",
+          "Retain only as required by GST law"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent if personally identifiable — Section 6(1)",
+          "Delete after transaction unless GST retention required"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "If GSTIN identifies an individual (proprietorship), obtain consent before analytics",
+          "Consider anonymisation for aggregate analytics"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Do not use GSTIN for marketing without explicit marketing consent",
+          "Obtain separate marketing consent if intended — Section 6(1)"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["GSTIN in support context acceptable for business customers"]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["GSTIN not required for employment management — remove"]
+      },
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Obtain consent if personally identifiable — delete when purpose served"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Determine purpose — delete if cannot be established"]
+      }
+    }
+  },
+
+  "UPI": {
+    "description": "NPCI-registered UPI payment handle — financial identifier that constitutes personal data under Section 2(t). Directly linked to bank account.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "HIGH",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["payment_fulfilment", "identity_verification"],
+    "purpose_assessments": {
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain explicit consent before collecting UPI ID — Section 6(1)",
+          "Provide notice including UPI purpose — Section 5",
+          "Encrypt UPI IDs at rest and in transit — Section 8(4) and 8(5)",
+          "Delete after transaction is complete — Section 8(7)",
+          "Implement breach notification process — Section 8(6)"
+        ]
+      },
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Encrypt — Section 8(4)",
+          "Delete after verification — Section 8(7)"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "UPI IDs must not be used for marketing — no legitimate basis",
+          "Remove from all marketing datasets immediately"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "UPI in support context valid for payment-related grievances",
+          "Obtain consent and provide notice",
+          "Delete after grievance is resolved — Section 8(7)"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Hash or anonymise UPI IDs before analytics use",
+          "Raw UPI IDs must not appear in analytics datasets"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "UPI not required for employment management — use bank account for salary",
+          "Remove from HR systems unless used for salary payment (obtain consent)"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["UPI IDs must not appear in operational logs — implement log sanitisation"]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)", "Section 8"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document regulatory basis for retaining UPI data",
+          "Encrypt and secure — Section 8(4)"
+        ]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN", "NO_CONSENT_MECHANISM"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why UPI ID exists in this dataset",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "IFSC": {
+    "description": "RBI-registered 11-character Indian Financial System Code identifying a specific bank branch. Combined with account number it identifies a financial account — personal data under Section 2(t).",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "MEDIUM",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["payment_fulfilment", "identity_verification", "regulatory_compliance", "employment_management"],
+    "purpose_assessments": {
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain consent before collecting IFSC — Section 6(1)",
+          "Provide notice — Section 5",
+          "Encrypt at rest — Section 8(4)",
+          "Delete after payment purpose is served — Section 8(7)"
+        ]
+      },
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Delete after verification — Section 8(7)"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Document regulatory basis",
+          "Delete after obligation is fulfilled"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(i)", "Section 8"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "IFSC for salary payment is legitimate — document basis",
+          "Obtain consent — Section 6(1)",
+          "Encrypt in HR systems — Section 8(4)"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "IFSC must not exist in marketing systems",
+          "Remove immediately — no legitimate basis"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "IFSC in support context valid for payment-related grievances",
+          "Delete after grievance is resolved"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Anonymise IFSC before analytics — bank branch is not analytically necessary"]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["IFSC must not appear in operational logs — implement log sanitisation"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Determine purpose — delete if cannot be established"]
+      }
+    }
+  },
+
+  "EMAIL": {
+    "description": "Email address — personal data under Section 2(t). Directly identifies an individual and enables direct communication.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "MEDIUM",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["identity_verification", "marketing_outreach", "grievance_redressal", "employment_management", "payment_fulfilment", "service_operation", "regulatory_compliance"],
+    "note": "Email is one of the more flexible personal data types — many purposes are valid provided consent and notice requirements are met. The key risk is using email collected for one purpose for a different purpose without fresh consent.",
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent before collecting email — Section 6(1)",
+          "Provide notice specifying email use — Section 5",
+          "Provide withdrawal mechanism — Section 6(4)",
+          "Delete email after verification purpose is served — Section 8(7)"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 6(1)", "Section 5"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain explicit consent specifically for marketing communications — Section 6(1)",
+          "Consent must be separate from service consent — Section 6(1) requires specific consent",
+          "Provide clear unsubscribe mechanism equal in ease to how consent was given — Section 6(4)",
+          "Provide notice including marketing purpose — Section 5",
+          "Do not use email collected for service delivery for marketing without separate marketing consent"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Delete email from support systems after grievance is resolved — Section 8(7)"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(i)", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice including HR use — Section 5",
+          "Delete after employment relationship ends unless legally required"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Delete after transaction unless customer account requires retention"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Ensure email in logs is necessary and not excessive — data minimisation — Section 6(1)",
+          "Delete logs after operational necessity is served — Section 8(7)"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Do not use individual emails for analytics without explicit analytics consent",
+          "Hash or anonymise emails before analytics processing",
+          "Aggregate analysis does not require raw individual emails"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Document regulatory basis — delete after obligation is fulfilled"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why this email exists in this dataset",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "PHONE": {
+    "description": "Indian mobile or landline number — personal data under Section 2(t). Directly identifies an individual and enables direct contact.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "MEDIUM",
+    "requires_notice": true,
+    "requires_consent": true,
+    "valid_purposes": ["identity_verification", "marketing_outreach", "grievance_redressal", "employment_management", "payment_fulfilment", "service_operation", "regulatory_compliance"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Delete after verification — Section 8(7)"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 6(1)", "Section 5"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain explicit marketing consent separately from service consent — Section 6(1)",
+          "Provide opt-out mechanism — Section 6(4)",
+          "Note: TRAI regulations on commercial communications also apply independently"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Delete phone from support systems after grievance is resolved"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(i)", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Delete after employment relationship ends"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Delete after transaction unless account requires retention"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Ensure phone in logs is operationally necessary — data minimisation — Section 6(1)"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Hash or anonymise phone numbers before analytics",
+          "Raw phone numbers must not appear in analytics datasets"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Document regulatory basis — delete after obligation is fulfilled"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why this phone number exists here",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "PERSON": {
+    "description": "Individual's full name or partial name — personal data under Section 2(t). Alone it is low sensitivity but in combination with other identifiers creates significant identification risk.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "LOW",
+    "requires_notice": true,
+    "requires_consent": true,
+    "note": "Name sensitivity increases significantly when combined with other identifiers. Alone, name is low risk. Combined with Aadhaar, PAN, address, DOB — risk escalates. Layer 6 linkage risk handles this combination scoring.",
+    "valid_purposes": ["identity_verification", "marketing_outreach", "grievance_redressal", "employment_management", "payment_fulfilment", "service_operation", "regulatory_compliance", "business_analytics"],
+    "purpose_assessments": {
+      "identity_verification": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Provide notice — Section 5",
+          "Data minimisation — collect name only if required for this purpose"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain explicit marketing consent — Section 6(1)",
+          "Provide opt-out mechanism — Section 6(4)"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Obtain consent — Section 6(1)", "Delete after grievance is resolved"]
+      },
+      "employment_management": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(i)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Obtain consent — Section 6(1)", "Delete after employment ends"]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Obtain consent — Section 6(1)"]
+      },
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Avoid names in logs where possible — use user IDs instead"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Do not use individual names in analytics — use anonymised IDs",
+          "Aggregate analysis does not require individual names"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Document regulatory basis"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why name exists in this dataset",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "IP_ADDRESS": {
+    "description": "Internet Protocol address — can identify an individual when combined with other data or with ISP records. Constitutes personal data under Section 2(t) in most processing contexts.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "LOW",
+    "requires_notice": true,
+    "requires_consent": true,
+    "disclaimer": "IP address identifiability depends on whether it is combined with other data or ISP records. Heuristic assessment — consult legal counsel for specific context.",
+    "valid_purposes": ["service_operation", "regulatory_compliance", "grievance_redressal"],
+    "purpose_assessments": {
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Include IP logging in your privacy notice — Section 5",
+          "Obtain consent — Section 6(1)",
+          "Delete IP logs after operational necessity is served — Section 8(7)",
+          "Consider anonymising IPs in logs where possible"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Document regulatory basis for IP retention"]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "IP retention for fraud investigation and support is valid",
+          "Document the purpose and delete after investigation is complete"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "IP addresses must not be used for marketing targeting without explicit consent",
+          "Obtain separate marketing consent if IP-based targeting is intended"
+        ]
+      },
+      "identity_verification": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "IP address is not a valid identity verification mechanism",
+          "Use government-issued identifiers for identity verification"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "IP addresses in HR systems suggest surveillance — review necessity",
+          "Remove unless specific security monitoring purpose exists with documented consent"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "IP for fraud detection in payments is valid",
+          "Include in notice — Section 5",
+          "Delete after transaction risk window passes"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Anonymise IPs before analytics — use geolocation aggregates instead of raw IPs",
+          "Raw IPs in analytics constitute personal data processing without clear necessity"
+        ]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why IP address exists in this dataset",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  },
+
+  "CREDIT_CARD": {
+    "description": "Payment card number — highly sensitive financial personal data under Section 2(t). Processing is also governed by PCI DSS standards independently of DPDPA.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "CRITICAL",
+    "requires_notice": true,
+    "requires_consent": true,
+    "note": "Credit card processing is additionally governed by PCI DSS, RBI Card Not Present regulations, and Payment Aggregator Guidelines. Compliance with DPDPA alone is insufficient — check all applicable financial regulations.",
+    "valid_purposes": ["payment_fulfilment"],
+    "purpose_assessments": {
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6", "Section 8(4)", "Section 8(5)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Obtain explicit consent before processing card data — Section 6(1)",
+          "Provide notice including card data processing purpose — Section 5",
+          "Implement strong encryption at rest and in transit — Section 8(4) and 8(5)",
+          "Do NOT store full card numbers — store only masked version or tokenise — Section 8(7)",
+          "Implement breach notification process — Section 8(6)",
+          "Verify PCI DSS compliance independently of DPDPA"
+        ]
+      },
+      "identity_verification": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Credit card must not be used for identity verification",
+          "Use government-issued ID for identity purposes",
+          "Remove card data from identity verification pipeline"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Credit card data must never exist in marketing systems — critical violation",
+          "Remove immediately and investigate how it arrived in marketing context"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Full card numbers must not appear in support systems — use masked last 4 digits only",
+          "Scrub card data from support tickets and logs immediately"
+        ]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Credit card data must not exist in HR systems — critical violation",
+          "Remove immediately and investigate"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION", "DATA_MINIMISATION_VIOLATION"],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Credit card data must never appear in analytics systems — critical violation",
+          "Use tokenised transaction IDs for analytics — never raw card numbers"
+        ]
+      },
+      "service_operation": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Credit card numbers must never appear in operational logs — critical violation",
+          "Implement immediate log sanitisation",
+          "This is also a PCI DSS violation — escalate to security team"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)", "Section 8"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Document the specific regulation requiring card retention",
+          "Encrypt and restrict access — Section 8(4)",
+          "Delete after regulatory period expires"
+        ]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4", "Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN", "NO_CONSENT_MECHANISM"],
+        "penalty_exposure_crore": 250,
+        "penalty_basis": "Schedule Item 1 — security safeguards obligation",
+        "recommended_actions": [
+          "Credit card in unknown context is a critical finding — escalate immediately",
+          "Delete immediately unless a documented legal basis exists",
+          "Investigate how card data arrived in this system"
+        ]
+      }
+    }
+  },
+
+  "LOCATION": {
+    "description": "Geographic location data — personal data under Section 2(t) when linked to an identifiable individual.",
+    "governing_sections": ["Section 4", "Section 5", "Section 6", "Section 8"],
+    "base_sensitivity": "MEDIUM",
+    "requires_notice": true,
+    "requires_consent": true,
+    "disclaimer": "Location sensitivity varies significantly by precision. General city-level location is lower risk. Precise GPS coordinates or movement patterns are higher risk. Heuristic assessment — consult legal counsel.",
+    "valid_purposes": ["service_operation", "payment_fulfilment", "grievance_redressal", "regulatory_compliance"],
+    "purpose_assessments": {
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent for location access — Section 6(1)",
+          "Provide notice specifying location use — Section 5",
+          "Apply data minimisation — collect only the precision required — Section 6(1)",
+          "Delete location data after service purpose is served — Section 8(7)"
+        ]
+      },
+      "payment_fulfilment": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4", "Section 6"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Obtain consent — Section 6(1)",
+          "Delete after delivery/transaction is complete"
+        ]
+      },
+      "marketing_outreach": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Location-based marketing requires separate explicit consent — Section 6(1)",
+          "Consent for delivery does not extend to marketing use — purpose limitation — Section 6(1)"
+        ]
+      },
+      "business_analytics": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Aggregate location data before analytics — use city/district level not precise coordinates",
+          "Obtain separate consent for analytics use of location"
+        ]
+      },
+      "grievance_redressal": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Valid if location is relevant to the grievance (e.g. delivery complaint)", "Delete after resolved"]
+      },
+      "identity_verification": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Location is not a valid identity verification method — use government ID"]
+      },
+      "employment_management": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 6(1)"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_LIMITATION_VIOLATION"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Location tracking of employees requires specific explicit consent — Section 6(1)",
+          "Review necessity — Section 9(3) principles apply by analogy to excessive monitoring"
+        ]
+      },
+      "regulatory_compliance": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 7(d)"],
+        "consent_required": "may_not_be_required",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Document regulatory basis — delete after obligation is fulfilled"]
+      },
+      "service_operation": {
+        "purpose_valid": true,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": [],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": ["Obtain consent — delete after operational necessity is served"]
+      },
+      "unknown_purpose": {
+        "purpose_valid": false,
+        "governing_sections": ["Section 4"],
+        "consent_required": "explicit",
+        "notice_required": true,
+        "violation_flags": ["PURPOSE_UNKNOWN"],
+        "penalty_exposure_crore": 50,
+        "penalty_basis": "Schedule Item 7 — other breach",
+        "recommended_actions": [
+          "Determine why location data exists here",
+          "Delete if purpose cannot be established — Section 8(7)"
+        ]
+      }
+    }
+  }
+}
