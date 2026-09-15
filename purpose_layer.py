@@ -25,20 +25,3 @@ def purpose_info(normalized_data):
         entity['processing_purpose'] = normalized_data['metadata']['business_purpose']
 
     return normalized_data
-
-# load file
-file_content = file_upload('file_kyc_doc.txt')
-
-detected_data = detector(file_content)
-
-boundary_checked_data = boundary_checkor(file_content, detected_data)
-
-validated_checked_data = valid_check(boundary_checked_data)
-
-normalized_data = normalizer(validated_checked_data)
-
-pprint(normalized_data)
-
-purpose_info_data = purpose_info(normalized_data)
-
-pprint(purpose_info_data)
