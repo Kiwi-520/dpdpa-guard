@@ -32,7 +32,7 @@ def assessment(purpose_info_data):
                 'recommended_actions': entity_data_info['purpose_assessments'][processing_purpose]['recommended_actions']
             }
             if entity['dpdpa_assessment']['purpose_valid']:
-                entity['dpdpa_assessment']['risk_level'] = 'LOW'
+                entity['dpdpa_assessment']['risk_level'] = entity['dpdpa_assessment']['sensitivity']
             else:
                 if entity['dpdpa_assessment']['sensitivity'] == "LOW":
                     entity['dpdpa_assessment']['risk_level'] = 'MEDIUM'
@@ -42,17 +42,18 @@ def assessment(purpose_info_data):
                     entity['dpdpa_assessment']['risk_level'] = 'CRITICAL'
                 if entity['dpdpa_assessment']['sensitivity'] == "CRITICAL":
                     entity['dpdpa_assessment']['risk_level'] = 'CRITICAL'
-        for word in child_sensitive_data:
-            if (word in purpose_info_data['metadata']['source_tag']) or (word in purpose_info_data['metadata']['source']):
-                purpose_info_data['metadata']['children_data_entities_requiring_review'] = {
-                        "children_data_detected": True,
-                        "children_data_signal": "source_tag_keyword",
-                        "children_data_keywords_found": word,
-                        "children_data_disclaimer": "Heuristic detection based on source path keywords. \n Cannot confirm which specific data subjects are children. \n Manual review required to identify child data principals and apply Section 9 DPDPA obligations including verifiable parental consent before any processing."
-                }
-                break
-            else:
-                purpose_info_data['metadata']['children_data_entities_requiring_review'] = {"children_data_detected": False}
+    children_data_keywords_found = []
+    for word in child_sensitive_data:
+        if (word in purpose_info_data['metadata']['source_tag']) or (word in purpose_info_data['metadata']['source']):
+            purpose_info_data['metadata']['children_data_entities_requiring_review'] = {
+                    "children_data_detected": True,
+                    "children_data_signal": "source_tag_keyword",
+                    "children_data_keywords_found": children_data_keywords_found.append(word),
+                    "children_data_disclaimer": "Heuristic detection based on source path keywords. \n Cannot confirm which specific data subjects are children. \n Manual review required to identify child data principals and apply Section 9 DPDPA obligations including verifiable parental consent before any processing."
+            }
+            break
+        else:
+            purpose_info_data['metadata']['children_data_entities_requiring_review'] = {"children_data_detected": False}
     return purpose_info_data
 
 def report(assessment_data):
@@ -69,6 +70,7 @@ def report(assessment_data):
     is_urgent = False
     for entity in assessment_data['entities']:
         voilation_flags_overall = {x for x in entity['dpdpa_assessment']['voilation_flags']}
+
         if entity['dpdpa_assessment']['risk_level'] == "CRITICAL":
             critical += 1
         elif entity['dpdpa_assessment']['risk_level'] == "HIGH":
@@ -79,7 +81,7 @@ def report(assessment_data):
             low += 1
         if entity['dpdpa_assessment']['penalty_exposure_crore'] > max_penality_exposure:
             max_penality_exposure = entity['dpdpa_assessment']['penalty_exposure_crore']
-        if entity['dpdpa_assessment']['purpose_valid']:
+        if entity['dpdpa_assessment']['purpose_valid'] == False:
             entities_with_voilation += 1
         if entity['dpdpa_assessment']['penalty_exposure_crore'] > 100 or entity['dpdpa_assessment']['purpose_valid'] == False:
             is_urgent = is_urgent and True
