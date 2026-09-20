@@ -3,18 +3,110 @@
     "source": "kyc",
     "business_purpose": "identity_verification"
   },
+  "onboarding": {
+    "source": "onboarding",
+    "business_purpose": "identity_verification"
+  },
+  "verification": {
+    "source": "verification",
+    "business_purpose": "identity_verification"
+  },
+  "identity": {
+    "source": "identity",
+    "business_purpose": "identity_verification"
+  },
+  "aadhaar_verify": {
+    "source": "aadhaar_verify",
+    "business_purpose": "identity_verification"
+  },
+  "pan_verify": {
+    "source": "pan_verify",
+    "business_purpose": "identity_verification"
+  },
+  "digilocker": {
+    "source": "digilocker",
+    "business_purpose": "identity_verification"
+  },
+
   "marketing": {
     "source": "marketing",
     "business_purpose": "marketing_outreach"
   },
+  "campaign": {
+    "source": "campaign",
+    "business_purpose": "marketing_outreach"
+  },
+  "leads": {
+    "source": "leads",
+    "business_purpose": "marketing_outreach"
+  },
+  "crm": {
+    "source": "crm",
+    "business_purpose": "marketing_outreach"
+  },
+  "newsletter": {
+    "source": "newsletter",
+    "business_purpose": "marketing_outreach"
+  },
+  "outreach": {
+    "source": "outreach",
+    "business_purpose": "marketing_outreach"
+  },
+  "promotional": {
+    "source": "promotional",
+    "business_purpose": "marketing_outreach"
+  },
+
   "support": {
     "source": "customer_support",
     "business_purpose": "grievance_redressal"
   },
   "ticket": {
     "source": "customer_support",
-    "business_purpose": " grievance_redressal"
+    "business_purpose": "grievance_redressal"
   },
+  "complaint": {
+    "source": "complaint",
+    "business_purpose": "grievance_redressal"
+  },
+  "grievance": {
+    "source": "grievance",
+    "business_purpose": "grievance_redressal"
+  },
+  "helpdesk": {
+    "source": "helpdesk",
+    "business_purpose": "grievance_redressal"
+  },
+  "customer_care": {
+    "source": "customer_care",
+    "business_purpose": "grievance_redressal"
+  },
+
+  "payment": {
+    "source": "payment_processing",
+    "business_purpose": "payment_fulfilment"
+  },
+  "transaction": {
+    "source": "transaction",
+    "business_purpose": "payment_fulfilment"
+  },
+  "order": {
+    "source": "order",
+    "business_purpose": "payment_fulfilment"
+  },
+  "checkout": {
+    "source": "checkout",
+    "business_purpose": "payment_fulfilment"
+  },
+  "billing": {
+    "source": "billing",
+    "business_purpose": "payment_fulfilment"
+  },
+  "invoice": {
+    "source": "invoice",
+    "business_purpose": "payment_fulfilment"
+  },
+
   "hr": {
     "source": "hr",
     "business_purpose": "employment_management"
@@ -23,18 +115,44 @@
     "source": "hr",
     "business_purpose": "employment_management"
   },
-  "analytics": {
-    "source": "analytics",
-    "business_purpose": "business_analytics"
+  "payroll": {
+    "source": "payroll",
+    "business_purpose": "employment_management"
   },
+  "recruitment": {
+    "source": "recruitment",
+    "business_purpose": "employment_management"
+  },
+  "appraisal": {
+    "source": "appraisal",
+    "business_purpose": "employment_management"
+  },
+
   "logs": {
     "source": "operational_logs",
     "business_purpose": "service_operation"
   },
-  "payment": {
-    "source": "payment_processing",
-    "business_purpose": "payment_fulfilment"
+  "analytics": {
+    "source": "analytics",
+    "business_purpose": "business_analytics"
   },
+  "monitoring": {
+    "source": "monitoring",
+    "business_purpose": "service_operation"
+  },
+  "telemetry": {
+    "source": "telemetry",
+    "business_purpose": "service_operation"
+  },
+  "system": {
+    "source": "system",
+    "business_purpose": "service_operation"
+  },
+  "server": {
+    "source": "server",
+    "business_purpose": "service_operation"
+  },
+
   "audit": {
     "source": "audit",
     "business_purpose": "regulatory_compliance"
