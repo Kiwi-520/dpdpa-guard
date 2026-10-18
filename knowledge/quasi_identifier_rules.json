@@ -1,0 +1,146 @@
+{
+  "_metadata": {
+    "description": "Quasi-identifier combination rules for linkage risk analysis",
+    "legal_basis": "DPDPA 2023 Section 2(t) — personal data includes data that identifies a person directly OR indirectly",
+    "version": "0.1.0"
+  },
+
+  "rules": [
+    {
+      "rule_id": "QI_001",
+      "name": "Government Identity Cluster",
+      "combination": ["AADHAAR", "PAN"],
+      "risk_level": "HIGH",
+      "description": "Two government identifiers together create an extremely strong identity profile. Data minimisation principle under Section 6(1) requires justification for holding both simultaneously.",
+      "dpdpa_reference": "Section 2(t), Section 6(1)",
+      "recommended_actions": [
+        "Review whether both identifiers are necessary for the stated purpose — data minimisation violation likely",
+        "Ensure separate explicit consent was obtained for each identifier",
+        "Consider storing only one primary identifier and collecting the second only when legally required"
+      ]
+    },
+    {
+      "rule_id": "QI_002",
+      "name": "Financial Identity Profile",
+      "combination": ["PAN", "UPI", "IFSC"],
+      "risk_level": "HIGH",
+      "description": "Three financial identifiers together constitute a complete financial identity profile. This combination uniquely identifies an individual's financial accounts and enables full financial profiling.",
+      "dpdpa_reference": "Section 2(t), Section 8(4), Section 8(5)",
+      "recommended_actions": [
+        "Verify explicit consent covers all three identifiers and their combined processing",
+        "Implement field-level encryption — these three together are highly sensitive",
+        "Apply strict access controls — limit who can query all three simultaneously",
+        "Review data minimisation — does the stated purpose require all three?"
+      ]
+    },
+    {
+      "rule_id": "QI_003",
+      "name": "Complete Contact Profile",
+      "combination": ["PERSON", "EMAIL", "PHONE"],
+      "risk_level": "MEDIUM",
+      "description": "Name with email and phone number creates a complete contact profile enabling cross-channel identification and direct outreach. Raises consent and purpose limitation questions particularly for marketing use.",
+      "dpdpa_reference": "Section 2(t), Section 6(1)",
+      "recommended_actions": [
+        "Ensure consent was obtained for combined use of all three — not just individual collection",
+        "Do not use this combination for marketing without explicit marketing-specific consent",
+        "Apply data minimisation — which fields are actually necessary for the stated purpose?"
+      ]
+    },
+    {
+      "rule_id": "QI_004",
+      "name": "Government ID and Payment Cluster",
+      "combination": ["AADHAAR", "UPI"],
+      "risk_level": "HIGH",
+      "description": "Aadhaar linked to a UPI payment handle creates a direct bridge between a person's national identity and their financial transactions. This combination enables complete financial behaviour profiling.",
+      "dpdpa_reference": "Section 2(t), Section 6(1), Section 8(4)",
+      "recommended_actions": [
+        "Verify both identifiers are required for the same processing purpose",
+        "Implement strong encryption for this combination at rest and in transit",
+        "Ensure breach notification process covers this high-risk combination — Section 8(6)"
+      ]
+    },
+    {
+      "rule_id": "QI_005",
+      "name": "Payment Data Cluster",
+      "combination": ["CREDIT_CARD", "UPI"],
+      "risk_level": "CRITICAL",
+      "description": "Multiple payment method identifiers together create a critical financial data cluster. An individual's complete payment identity is exposed. PCI DSS obligations also apply independently of DPDPA.",
+      "dpdpa_reference": "Section 2(t), Section 8(4), Section 8(5)",
+      "recommended_actions": [
+        "This combination requires immediate security review",
+        "Implement strongest available encryption for all payment identifiers",
+        "Verify PCI DSS compliance independently of DPDPA",
+        "Review whether both payment methods need to be stored simultaneously"
+      ]
+    },
+    {
+      "rule_id": "QI_006",
+      "name": "Full Government Identity Stack",
+      "combination": ["AADHAAR", "PASSPORT", "VOTER_ID"],
+      "risk_level": "CRITICAL",
+      "description": "Three government identifiers for the same individual. No legitimate use case requires all three simultaneously for most business purposes. Almost certainly a data minimisation violation under Section 6(1).",
+      "dpdpa_reference": "Section 2(t), Section 6(1), Section 8(7)",
+      "recommended_actions": [
+        "Review immediately — data minimisation violation highly likely",
+        "Determine which single identifier satisfies the legitimate purpose",
+        "Delete the excess identifiers — Section 8(7) requires deletion when purpose is served",
+        "Ensure consent was obtained for all three if retention is justified"
+      ]
+    },
+    {
+      "rule_id": "QI_007",
+      "name": "Identity and Vehicle Profile",
+      "combination": ["PERSON", "DRIVING_LICENSE", "VEHICLE_REG"],
+      "risk_level": "MEDIUM",
+      "description": "Name combined with driving licence and vehicle registration creates a physical-world identity profile linking a person to their physical presence and movement capability.",
+      "dpdpa_reference": "Section 2(t), Section 6(1)",
+      "recommended_actions": [
+        "Verify purpose justifies all three — data minimisation review required",
+        "Obtain explicit consent for combined processing",
+        "Limit access to this combination strictly"
+      ]
+    },
+    {
+      "rule_id": "QI_008",
+      "name": "Full Financial Stack",
+      "combination": ["CREDIT_CARD", "UPI", "IFSC"],
+      "risk_level": "CRITICAL",
+      "description": "All major financial identifiers present simultaneously. This combination constitutes a complete financial identity that enables access to all payment channels. Requires strongest safeguards.",
+      "dpdpa_reference": "Section 2(t), Section 8(4), Section 8(5), Section 8(6)",
+      "recommended_actions": [
+        "Immediate security review required",
+        "Verify PCI DSS compliance independently",
+        "Implement field-level encryption for every identifier in this combination",
+        "Restrict database queries that return all three simultaneously",
+        "Review data minimisation — no single business process requires all three"
+      ]
+    },
+    {
+      "rule_id": "QI_009",
+      "name": "Complete KYC Profile",
+      "combination": ["AADHAAR", "PAN", "PASSPORT"],
+      "risk_level": "HIGH",
+      "description": "Three identity verification documents together create a comprehensive KYC profile. While KYC contexts may legitimately collect multiple documents, simultaneous storage of all three requires strong justification.",
+      "dpdpa_reference": "Section 2(t), Section 6(1), Section 8(7)",
+      "recommended_actions": [
+        "Document which regulatory requirement mandates all three identifiers",
+        "Delete documents after KYC verification is complete — Section 8(7)",
+        "Ensure explicit consent covers all three",
+        "Implement strict access controls on this combination"
+      ]
+    },
+    {
+      "rule_id": "QI_010",
+      "name": "Person and Financial Identifier",
+      "combination": ["PERSON", "PAN"],
+      "risk_level": "MEDIUM",
+      "description": "Name directly linked to PAN creates a named financial identity. This combination uniquely identifies a taxpayer and enables financial profiling by name.",
+      "dpdpa_reference": "Section 2(t), Section 6(1)",
+      "recommended_actions": [
+        "Ensure consent covers combined processing of name and PAN",
+        "Apply data minimisation — is the name required alongside PAN for this purpose?",
+        "Encrypt PAN — Section 8(4)"
+      ]
+    }
+  ]
+}
